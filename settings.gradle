@@ -1,2 +1,4 @@
 rootProject.name = 'fileTransfer'
+include 'client'
+include 'server'
 
