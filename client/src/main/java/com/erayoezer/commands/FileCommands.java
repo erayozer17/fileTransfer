@@ -5,6 +5,7 @@ import com.erayoezer.service.DownloadService;
 import com.erayoezer.service.ListService;
 import com.erayoezer.service.RemoveService;
 import org.springframework.shell.command.annotation.Command;
+import org.springframework.shell.command.annotation.Option;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,8 +28,10 @@ public class FileCommands implements Runnable{
     }
 
     @Command(command = "upload", description = "Uploads file.")
-    public void uploadFile() {
-        uploadService.uploadFile();
+    public void uploadFile(
+        @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path
+    ) {
+        uploadService.uploadFile(path);
     }
 
     @Command(command = "download", description = "Uploads file.")
