@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Command(group = "File Commands")
-public class FileCommands implements Runnable{
+public class FileCommands {
 
     private final UploadService uploadService;
     private final DownloadService downloadService;
@@ -47,9 +47,5 @@ public class FileCommands implements Runnable{
     @Command(command = "list", description = "Uploads file.")
     public void listFile() {
         listService.listFile();
-    }
-    @Override
-    public void run() {
-        System.out.println("File commands");
     }
 }
