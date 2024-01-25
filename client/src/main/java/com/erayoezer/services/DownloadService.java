@@ -1,4 +1,4 @@
-package com.erayoezer.service;
+package com.erayoezer.services;
 
 import org.springframework.stereotype.Service;
 

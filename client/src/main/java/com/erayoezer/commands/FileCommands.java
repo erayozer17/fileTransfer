@@ -1,9 +1,9 @@
 package com.erayoezer.commands;
 
-import com.erayoezer.service.UploadService;
-import com.erayoezer.service.DownloadService;
-import com.erayoezer.service.ListService;
-import com.erayoezer.service.RemoveService;
+import com.erayoezer.services.UploadService;
+import com.erayoezer.services.DownloadService;
+import com.erayoezer.services.ListService;
+import com.erayoezer.services.RemoveService;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.Option;
 import org.springframework.stereotype.Component;
