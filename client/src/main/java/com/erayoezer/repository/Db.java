@@ -1,7 +1,9 @@
 package com.erayoezer.repository;
 
+import java.util.Optional;
+
 public interface Db {
     void writeToDb(String key, String value);
 
-    String readFromDb(String key);
+    Optional<String> readFromDb(String key);
 }

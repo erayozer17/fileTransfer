@@ -2,6 +2,7 @@ package com.erayoezer.repository;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -14,8 +15,8 @@ public class InMemoryDbImpl implements Db {
     }
 
     @Override
-    public String readFromDb(String key) {
-        return getDb().get(key);
+    public Optional<String> readFromDb(String key) {
+        return Optional.of(getDb().get(key));
     }
 
     private ConcurrentHashMap<String, String> getDb() {

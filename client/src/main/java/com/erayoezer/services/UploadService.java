@@ -1,17 +1,33 @@
 package com.erayoezer.services;
 
+import com.erayoezer.connections.ServerSocket;
 import com.erayoezer.repository.Db;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
-public class UploadService {
+public class UploadService extends FileCommandsTemplate {
 
-    private final Db db;
-
-    public UploadService(Db db) {
-        this.db = db;
+    public UploadService(Db db, ServerSocket serverSocket) {
+        super(db, serverSocket);
     }
-    public void uploadFile(String path) {
-        System.out.println("upload file command " + path);
+
+    @Override
+    protected void command(String bucketLocation) {
+        try {
+            serverSocket.sendFile(bucketLocation);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String nameOfCommand() {
+        return "upload";
+    }
+
+    public void uploadFile(String username, String path) {
+        executeCommand(username, path);
     }
 }

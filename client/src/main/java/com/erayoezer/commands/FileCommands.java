@@ -30,30 +30,34 @@ public class FileCommands {
 
     @Command(command = "upload", description = "Uploads file.")
     public void uploadFile(
+        @Option(required = true, description = "Used to determine where to save the file.", longNames = "username", shortNames = 'u') String username,
         @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path
     ) {
-        uploadService.uploadFile(path);
+        uploadService.uploadFile(username, path);
     }
 
     @Command(command = "download", description = "Uploads file.")
     public void downloadFile(
-        @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path
+        @Option(required = true, description = "Used to determine where to save the file.", longNames = "username", shortNames = 'u') String username,
+        @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path,
+        @Option(required = true, description = "File name to download", longNames = "file", shortNames = 'f') String file
     ) {
-        downloadService.downloadFile();
+        downloadService.downloadFile(username, path, file);
     }
 
     @Command(command = "remove", description = "Uploads file.")
     public void removeFile(
-        @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path
+        @Option(required = true, description = "Used to determine where to save the file.", longNames = "username", shortNames = 'u') String username,
+        @Option(required = true, description = "File name to remove", longNames = "file", shortNames = 'f') String file
     ) {
-        removeService.removeFile();
+        removeService.removeFile(username, file);
     }
 
     @Command(command = "list", description = "Uploads file.")
     public void listFile(
-        @Option(required = true, description = "Path of the file", longNames = "path", shortNames = 'p') String path
+        @Option(required = true, description = "Used to determine where to save the file.", longNames = "username", shortNames = 'u') String username
     ) {
-        listService.listFile();
+        listService.listFile(username);
     }
 
     @Command(command = "register", description = "Uploads file.")
