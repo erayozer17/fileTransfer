@@ -105,8 +105,6 @@ public class ServerSocket {
     private static Properties properties;
 
     public static void main(String[] args) {
-
-
         try {
             ServerSocket server = new ServerSocket();
             server.start();
