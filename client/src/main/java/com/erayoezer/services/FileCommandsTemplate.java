@@ -16,14 +16,14 @@ public abstract class FileCommandsTemplate {
         this.db = db;
         this.serverSocket = serverSocket;
     }
-    public void executeCommand(String username, String path) {
+    public void executeCommand(String username, Optional<String> path) {
         try {
             System.out.println("Reading the file from -> " + path);
             Optional<String> bucketLocation = db.readFromDb(username);
             if (bucketLocation.isEmpty()) {
                 throw new UserNotFoundException();
             }
-            command(bucketLocation.get());
+            command(bucketLocation.get(), path);
         } catch (Exception e) {
             throw new RuntimeException(e); // TODO logging
         }
@@ -31,6 +31,6 @@ public abstract class FileCommandsTemplate {
 
     }
 
-    protected abstract void command(String bucketLocation);
+    protected abstract void command(String bucketLocation, Optional<String> path);
     public abstract String nameOfCommand();
 }

@@ -4,6 +4,8 @@ import com.erayoezer.connections.ServerSocket;
 import com.erayoezer.repository.Db;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RemoveService extends FileCommandsTemplate {
 
@@ -15,7 +17,7 @@ public class RemoveService extends FileCommandsTemplate {
     }
 
     @Override
-    protected void command(String bucketLocation) {
+    protected void command(String bucketLocation, Optional<String> path) {
 
     }
 
