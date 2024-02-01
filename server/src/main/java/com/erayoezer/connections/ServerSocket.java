@@ -19,9 +19,11 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class ServerSocket {
 
+    private final static Logger LOG = Logger.getLogger(ServerSocket.class.getName());
     private Selector selector;
     private ServerSocketChannel serverSocketChannel;
     private final ExecutorService fileExecutor = Executors.newSingleThreadExecutor(); // Single thread for file writes
@@ -31,7 +33,7 @@ public class ServerSocket {
         loadProperties();
         int port = Integer.parseInt(getProperty("serverPort"));
         String hostname = getProperty("serverIp");
-        // TODO debug logging for port
+        LOG.info(String.format("Hostname: %s Port: %s", hostname, port));
         selector = Selector.open();
         serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress(hostname, port));
@@ -42,9 +44,9 @@ public class ServerSocket {
     private void start() {
         try {
             while (true) {
-                System.out.println("before select");
+                LOG.info("before select");
                 selector.select(); // This is a blocking call, but it's non-blocking in terms of I/O.
-                System.out.println("after select");
+                LOG.info("after select");
                 Set<SelectionKey> selectedKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iter = selectedKeys.iterator();
                 while (iter.hasNext()) {
@@ -57,16 +59,16 @@ public class ServerSocket {
                     }
                     iter.remove();
                 }
-                System.out.println("end of while");
+                LOG.info("end of while");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.severe("Server could not be started or something went wrong while reading/writing.");
         } finally {
             try {
                 selector.close();
                 serverSocketChannel.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.severe("Selector or server socket could not be closed.");
             }
         }
     }
@@ -94,11 +96,11 @@ public class ServerSocket {
     private void writeToFile(String message) {
         String filePath = System.getProperty("user.dir") + File.separator + "server_output.txt";
         Path path = Paths.get(filePath);
-        System.out.println("writing to -> " + filePath);
+        LOG.severe(String.format("writing to -> %s", filePath));
         try {
             Files.write(path, message.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.severe(String.format("Could not write to file: %s", filePath));
         }
     }
 
@@ -109,21 +111,19 @@ public class ServerSocket {
             ServerSocket server = new ServerSocket();
             server.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.severe("Server could not be started.");
         }
     }
 
     private static void loadProperties() {
-        // Try with resources to ensure the InputStream is closed after use
         try (InputStream input = ServerSocket.class.getClassLoader().getResourceAsStream("application.properties")) {
             if (input == null) {
-                System.out.println("Sorry, unable to find application.properties");
+                LOG.severe("Unable to find application.properties");
                 return;
             }
-            // Load the properties file from the classpath
             properties.load(input);
         } catch (IOException ex) {
-            ex.printStackTrace();// TODO logging
+            LOG.severe("Error while reading the properties file.");
         }
     }
 
