@@ -1,3 +1,5 @@
+## A playground to try out non-blocking I/O in Java. Still needs improvements.
+
 # File Transfer Application
 
 The File Transfer Application is a client-server based application that allows users to upload and download files from a server. This application is built using Java and follows a client-server architecture.
